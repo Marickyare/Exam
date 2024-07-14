@@ -1,0 +1,124 @@
+﻿#define _CRT_NONSTDC_NO_DEPRECATE
+#define _CRT_SECURE_NO_WARNINGS
+#define _USE_MATH_DEFINES
+#include <locale.h>
+#include <iostream>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <stdlib.h>
+
+using namespace std;
+
+class tringle {
+private:
+	double a, b, c;
+
+public:
+	tringle() : a(), b(), c() {}				//конструктор по умлочанию
+	tringle(double a, double b, double c) {			//конструктор
+		this->a = a;
+		this->b = b;
+		this->c = c;
+		
+	}
+	//~tringle();												//деструктор
+	void rb_tr();											//метод проерки на равнобедренность
+	string real_tr();										//метод определения существования треугольника
+	string len_tr();										//метод вывода длин сторон
+	string corn_tr();										//метод вывода углов треугольника
+	string P_tr();											//вывод периметра треугольника
+	double S_tr();											//вывод площади треугольника;
+};
+
+void tringle::rb_tr() {
+	if ((a == b && a != c) || (a == c && a != b) || (c == b && c != a)) {
+		 cout << "Треугольник ранобедренный.\n";
+	}
+	else
+	{
+		cout << "Треугольник не равнобедренный.\n";
+	}
+}
+
+string tringle::real_tr() {
+	if (((a + b) > c) && ((c + b) > a) && ((a + c) > b)) {
+		return "Треугольник существует.";
+	}
+	else
+	{
+		return "Треугольник не существует.";
+	}
+}
+
+string tringle::len_tr() {
+	string s;
+	char b1[6], b2[6], b3[6];
+	_itoa(a, b1, 10);
+	_itoa(b, b2, 10);
+	_itoa(c, b3, 10);
+	s = "Длина 1-й строны треугольника: " + (string)b1 + "\nДлина 2-й строны треугольника: " + (string)b2 + "\nДлина 3-й строны треугольника: " + (string)b3;
+	return s;
+}
+
+string tringle::corn_tr() {
+	double x1, x2, x3;
+
+	x1 = acos((pow(a, 2) + pow(c, 2) - pow(b, 2)) / (2 * (a) * (c))) / M_PI * 180;
+	x2 = acos((pow(a, 2) + pow(b, 2) - pow(c, 2)) / (2 * (a) * (b))) / M_PI * 180;
+	x3 = acos((pow(b, 2) + pow(c, 2) - pow(a, 2)) / (2 * (c) * (b))) / M_PI * 180;
+
+	char c1[10], c2[10], c3[10];
+
+
+	itoa(x1, c1, 10);
+	itoa(x2, c2, 10);
+	itoa(x3, c3, 10);
+
+	string res;
+	res = "Первый угол равен: " + (string)c1 + " градусов." + "\nВторой угол равен: " + (string)c2 + " градусов." + "\nТретий угол равен: " + (string)c3 + " градусов";
+	return res;
+}
+
+string tringle::P_tr() {
+	int P = (a) + (b) + (c);
+	char bd[10];
+	itoa(P, bd, 10);
+	string s;
+	s = bd;
+	return s;
+}
+
+double tringle::S_tr() {
+	int s = a * (b) * (c);
+	return s;
+}
+
+
+int main() {
+	setlocale(LC_ALL, "ru");
+
+	double res = 0;
+	int co;
+	cout << "Введите количество треугольников: "; cin >> co;
+
+	tringle* arr = (tringle*)malloc(co);
+
+	for (int i = 0; i < co; i++)
+	{
+		cout << "Треугольник " << i + 1 << ": " << endl;
+		int a, b, c;
+		std::cout << "Введите значение стороны a: "; 
+		std::cin >> a;
+
+		std::cout << "Введите значение стороны b: "; 
+		std::cin >> b;
+
+		std::cout << "Введите значение стороны c: "; 
+		std::cin >> c;
+
+		arr[i] = tringle(a, b, c);
+		res += (arr[i].S_tr())/3;
+	}
+	cout << res;
+}
